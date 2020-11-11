@@ -13,6 +13,18 @@ const jokesSchema = {
 
 const Joke = mongoose.model('Joke', jokesSchema);
 
+
+app.get('/jokes', (req, res) => {
+    Joke.find((error, jokes) => {
+        if(!error){
+            res.send(jokes);
+        }
+        else{
+            res.send(error);
+        }
+    });
+});
+
 app.post('/jokes', (req, res) => {
     console.log(req.body.title);
     console.log(req.body.content);
@@ -29,6 +41,17 @@ app.post('/jokes', (req, res) => {
             res.send(error);
         }
     }));
+});
+
+app.delete('/jokes', (req, res) => {
+    Joke.deleteMany((error) => {
+        if(!error){
+            res.send('deleted all records');
+        }
+        else{
+            res.send(error);
+        }
+    });
 });
 
 app.listen(3000, () => {
